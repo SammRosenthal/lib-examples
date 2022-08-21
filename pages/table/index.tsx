@@ -4,8 +4,9 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { useTableApi } from '../hooks/table/use-table-api';
-import { TableData } from '../shapes/data';
+import React from 'react';
+import { useTableApi } from '../../hooks/table/use-table-api';
+import { TableData } from '../../shapes/data';
 
 const columnHelper = createColumnHelper<TableData>();
 
@@ -39,6 +40,8 @@ export const Table = () => {
   if (isError) return <div>{JSON.stringify(error, undefined, 4)}</div>;
 
   // Table component can only recieve valid data to render
+  // Typescript should block a component that renders a table from passing
+  // a falsy value like undefined or null (pending data from api)
   return <ExampleImportedTableComponent data={data} />;
 };
 
@@ -54,27 +57,33 @@ export const ExampleImportedTableComponent = ({
   });
 
   return (
-    <div className="p-4">
-      <table className="w-full">
+    <>
+      <table>
         <thead>
           {table.getHeaderGroups().map((headersGroup) => (
             <tr key={headersGroup.id}>
-              {headersGroup.headers.map((header) => (
-                <th key={header.id} className="border text-start">
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext(),
-                  )}
-                </th>
-              ))}
+              {headersGroup.headers.map((header) => {
+                return (
+                  <th
+                    key={header.id}
+                    className="min-w-fit border px-2 text-start"
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext(),
+                    )}
+                  </th>
+                );
+              })}
             </tr>
           ))}
         </thead>
+
         <tbody>
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="border text-start">
+                <td key={cell.id} className="border px-2 text-start">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
@@ -82,7 +91,7 @@ export const ExampleImportedTableComponent = ({
           ))}
         </tbody>
       </table>
-    </div>
+    </>
   );
 };
 
