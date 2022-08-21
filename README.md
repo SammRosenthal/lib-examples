@@ -8,11 +8,8 @@
   - [Table with manual pagination](https://github.com/SammRosenthal/lib-examples/blob/main/pages/table/withPagination.tsx)
 
 <br/>
-<br/>
 
 ## Used throughout the project
-
----
 
 - [TanStack Query](https://tanstack.com/query/v4/?from=reactQueryV3&original=https://react-query-v3.tanstack.com/)
 - [HeadlessUI](https://headlessui.com/)
