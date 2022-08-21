@@ -8,4 +8,4 @@ export type TableData = {
   email: string;
   classes: number;
   active: boolean;
-}[];
+};
